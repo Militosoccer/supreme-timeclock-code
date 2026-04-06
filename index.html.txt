@@ -1,0 +1,34 @@
+<div style="background: black; color: #ccc; font-family: 'Courier New', monospace; font-size: 13px; padding: 10px; text-align: center;">
+  <span id="nyc-time"></span>
+</div>
+
+<script>
+function updateNYCTime() {
+  const now = new Date();
+  const options = {
+    timeZone: 'America/New_York',
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  };
+  
+  const formatter = new Intl.DateTimeFormat('en-US', options);
+  const parts = formatter.formatToParts(now);
+  
+  const month = parts.find(p => p.type === 'month').value;
+  const day = parts.find(p => p.type === 'day').value;
+  const year = parts.find(p => p.type === 'year').value;
+  const hour = parts.find(p => p.type === 'hour').value;
+  const minute = parts.find(p => p.type === 'minute').value;
+  const dayPeriod = parts.find(p => p.type === 'dayPeriod').value.toLowerCase();
+  
+  document.getElementById('nyc-time').textContent = 
+    `${month}/${day}/${year} ${hour}:${minute}${dayPeriod} NYC`;
+}
+
+updateNYCTime();
+setInterval(updateNYCTime, 60000); // Updates every minute
+</script>
